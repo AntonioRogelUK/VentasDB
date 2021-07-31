@@ -12,22 +12,29 @@ namespace LogicaNegocios
         public int Id { get; set; }
         public string Nombre { get; set; }
 
-
-        string conectionString;
-        public Empleado()
+        private readonly IBaseDeDatos baseDeDatos;
+        
+        public Empleado(SeleccionBaseDeDatos.TipoBaseDeDatos tipoBaseDeDatos, string fuente)
         {
-            conectionString = "Server=localhost;Database=VENTAS_DB;Trusted_Connection=True;";
+            baseDeDatos = SeleccionBaseDeDatos.Seleccionar(tipoBaseDeDatos, fuente);
         }
 
         public void Login(string usuario, string contrasena)
         {
             try
             {
-                SQL sql = new SQL(conectionString);
+                string query = "";
+                if(baseDeDatos is SQL) 
+                {
+                    query = $"SELECT Id, Nombre FROM EMPLEADOS WHERE Nombre='{usuario}' AND Contrasena = '{contrasena}'";
+                }
+                else 
+                {
+                    query = $"SELECT Id, Nombre FROM [EMPLEADOS$] WHERE Nombre='{usuario}' AND Contrasena = '{contrasena}'";
+                }
+                
 
-                string query = $"SELECT Id, Nombre FROM EMPLEADOS WHERE Nombre='{usuario}' AND Contrasena = '{contrasena}'";
-
-                Dictionary<string, object> dicEmpleado = sql.Reader(query);
+                Dictionary<string, object> dicEmpleado = baseDeDatos.Reader(query);
 
                 if (dicEmpleado.Count < 1)
                 {

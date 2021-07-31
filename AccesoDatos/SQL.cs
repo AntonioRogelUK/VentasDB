@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AccesoDatos
 {
-    public class SQL
+    public class SQL : IBaseDeDatos
     {
         private readonly string connectionString;
         public SQL(string connectionString)
