@@ -33,7 +33,7 @@ namespace Ventas
                 else 
                 {
                     Global.TipoBaseDeDatos = SeleccionBaseDeDatos.TipoBaseDeDatos.Excel;
-                    Global.FuenteDeDatos = Path.Combine(Environment.CurrentDirectory, "Database.xlsx");
+                    Global.FuenteDeDatos = Path.Combine(Environment.CurrentDirectory, "ExcelDB", "Database.xlsx");
                 }
 
 
